@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Mesa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="main-menu">
+        <h1 class="title">Elige un mazo</h1>
+        <div class="decks-container">
+            <div class="deck" onclick="startDraw('reto')">
+                <div class="deck-texture">Reto</div>
+            </div>
+            <div class="deck" onclick="startDraw('adivinanza')">
+                <div class="deck-texture">Adivinanza</div>
+            </div>
+            <div class="deck" onclick="startDraw('categoria')">
+                <div class="deck-texture">Categoría</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="card-overlay" class="hidden">
+        <div id="timer-controls" class="hidden">
+            <button id="remove-time-btn" onclick="removeTime(event)">-30seg</button>
+            <div id="timer-display">00:30</div>
+            <button id="add-time-btn" onclick="addTime(event)">+30seg</button>
+        </div>
+
+        <div class="card-scene">
+            <div id="active-card" class="card">
+                <div class="card-face card-front">
+                    <p id="card-question">Pregunta o Reto</p>
+                    <p id="banker-answer" class="hidden">Respuesta: <span id="banker-text"></span></p>
+                    <button id="start-participation-btn" class="hidden" onclick="startParticipation(event)">Iniciar
+                        participación</button>
+                </div>
+                <div class="card-face card-back">
+                    <p id="card-answer">Respuesta</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="close-btn" onclick="closeCard()">Volver a los mazos</button>
+    </div>
+
+    <div id="time-up-alert" class="time-alert hidden" role="alert" aria-live="assertive">
+        <div class="time-alert-content">
+            <p class="time-alert-label">¡Se acabó el tiempo!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

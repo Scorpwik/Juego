@@ -1,0 +1,364 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0f;
+    background-image:
+        radial-gradient(circle at 50% 100%, rgba(200, 40, 20, 0.35) 0%, transparent 60%),
+        radial-gradient(circle at 50% 0%, rgba(40, 42, 48, 0.8) 0%, #0d0d0f 80%);
+    font-family: "Georgia", serif;
+    color: #f4e1c1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    overflow: hidden;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(220, 60, 20, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(120, 125, 135, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 120%, rgba(180, 50, 10, 0.4) 0%, rgba(30, 32, 38, 0.5) 50%, transparent 80%);
+    animation: firePulse 4s infinite alternate ease-in-out;
+    z-index: -1;
+}
+
+@keyframes firePulse {
+    0% {
+        opacity: 0.5;
+        transform: scale(1) translateY(0);
+        filter: brightness(0.9);
+    }
+
+    100% {
+        opacity: 0.95;
+        transform: scale(1.08) translateY(-5px);
+        filter: brightness(1.2);
+    }
+}
+
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+h1.title {
+    text-align: center;
+    font-size: clamp(1.8rem, 5vh, 2.5rem);
+    letter-spacing: 3px;
+    color: #d4af37;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.3);
+    margin: 0 0 2vh 0;
+}
+
+.decks-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8vh;
+    width: 100%;
+}
+
+.deck {
+    width: clamp(240px, 75vw, 300px);
+    height: clamp(110px, 18dvh, 140px);
+    background: linear-gradient(135deg, #2b2d35, #121316);
+    border: 3px solid #b8860b;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9), inset 0 0 12px rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    will-change: transform;
+}
+
+.deck:hover {
+    border-color: #d4af37;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.95), 0 0 15px rgba(184, 135, 11, 0.4);
+    transform: translateY(-2px);
+}
+
+.deck:active {
+    transform: translateY(3px) scale(0.98);
+}
+
+.deck-texture {
+    background-color: #d8c39e;
+    background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18)),
+        radial-gradient(circle, #e6d2b5 20%, #c4a47c 100%);
+    width: 93%;
+    height: 85%;
+    border-radius: 4px;
+    border: 1px solid #4a2e15;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2b170a;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.2);
+    padding: 5px;
+    box-sizing: border-box;
+    letter-spacing: 2px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#card-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background: rgba(8, 4, 2, 0.92);
+    background-image: radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.3) 0%, rgba(5, 2, 1, 0.98) 85%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+#card-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2vh;
+}
+
+#timer-display {
+    font-size: clamp(3rem, 15vw, 4rem);
+    color: #d4af37;
+    font-family: monospace;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+    text-align: center;
+}
+
+#add-time-btn,
+#remove-time-btn,
+.close-btn,
+#start-participation-btn {
+    padding: 10px 16px;
+    background: transparent;
+    color: #d4af37;
+    border: 2px solid #d4af37;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    white-space: nowrap;
+    transition: transform 0.15s cubic-bezier(0.2, 0, 0.13, 2), background-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+#add-time-btn:active,
+#remove-time-btn:active,
+.close-btn:active {
+    transform: scale(0.92);
+    background: #d4af37;
+    color: #0d0d0f;
+}
+
+#start-participation-btn {
+    margin-top: 20px;
+    background: linear-gradient(to bottom, #4a2e15, #2b170a);
+    color: #f4e1c1;
+    border: 2px solid #b8860b;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+#start-participation-btn:active {
+    transform: scale(0.95);
+}
+
+.close-btn {
+    margin-top: 4vh;
+    padding: 12px 25px;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.time-alert {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(8, 4, 2, 0.9);
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.time-alert.is-visible {
+    animation: timeAlertFadeIn 0.45s ease forwards;
+    pointer-events: auto;
+}
+
+.time-alert.is-closing {
+    animation: timeAlertFadeOut 0.55s ease forwards;
+}
+
+.time-alert-content {
+    width: min(85vw, 360px);
+    padding: 30px 24px;
+    box-sizing: border-box;
+    border: 3px solid #d4af37;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #3d2314, #160b06);
+    color: #f4e1c1;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.45);
+}
+
+.time-alert-content p {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.time-alert-content .time-alert-label {
+    margin-bottom: 12px;
+    color: #d4af37;
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    font-weight: bold;
+}
+
+@keyframes timeAlertFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes timeAlertFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+.card-scene {
+    width: 85vw;
+    max-width: 320px;
+    height: 55dvh;
+    max-height: 420px;
+    perspective: 1200px;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+    will-change: transform;
+}
+
+.card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card.randomizing {
+    animation: shuffleCard 0.6s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+@keyframes shuffleCard {
+    0% {
+        transform: rotateY(0deg) scale(0.95);
+        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+    }
+
+    50% {
+        transform: rotateY(180deg) scale(1.08) translateY(-8px);
+        filter: drop-shadow(0 0 25px rgba(218, 165, 32, 0.8));
+    }
+
+    100% {
+        transform: rotateY(360deg) scale(0.95);
+        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+    }
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: #d8c39e;
+    background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18)),
+        radial-gradient(circle, #e6d2b5 20%, #c4a47c 100%);
+    border: 6px solid #3d2314;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(184, 135, 11, 0.3), inset 0 0 20px rgba(74, 46, 21, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: clamp(1.2rem, 6vw, 1.6rem);
+    color: #2b170a;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background-image: radial-gradient(circle, #d8c39e 20%, #b5926b 100%);
+}
+
+#card-question,
+#card-answer {
+    margin: 0;
+    width: 100%;
+}
+
+#banker-answer {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    color: #5c0606;
+    margin-top: 15px;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+}
